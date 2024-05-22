@@ -9,15 +9,13 @@ const mongoose = require("mongoose"),
 
 // 데이터베이스 연결 설정
 mongoose.connect(  
-  "mongodb+srv://ut-node:1h09KRiarilGkhKm@ut-node.br8wxbu.mongodb.net/?retryWrites=true&w=majority&appName=UT-Node",
+  "mongodb+srv://ut-node:cJVs2c1wdnhfupa8@ut-node.br8wxbu.mongodb.net/?retryWrites=true&w=majority&appName=UT-Node",
 );
 
 const db = mongoose.connection;
 db.once("open", () => {
   console.log("connected to DB!!!");
 });
-
-mongoose.connection;
 
 var courses = [
   {
@@ -103,4 +101,4 @@ setTimeout(() => {
     .catch((error) => {
       console.log(`Error: ${error}`);
     });
-}, 500);
+}, 1500);
