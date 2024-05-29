@@ -15,8 +15,13 @@ const express = require("express"), // express를 요청
  */
 const mongoose = require("mongoose"); // mongoose를 요청
 // 데이터베이스 연결 설정
-mongoose.connect("mongodb://127.0.0.1:27017/ut-nodejs", {
-  useNewUrlParser: true,
+mongoose.connect(  
+  "mongodb+srv://ut-node:cJVs2c1wdnhfupa8@ut-node.br8wxbu.mongodb.net/?retryWrites=true&w=majority&appName=UT-Node",
+);
+
+const db = mongoose.connection;
+db.once("open", () => {
+  console.log("connected to DB!!!");
 });
 
 app.set("port", process.env.PORT || 3000);
@@ -57,6 +62,12 @@ app.use("/", router);
 /**
  * @TODO: methodOverride를 미들웨어로 사용하기 위한 애플리케이션 라유터 설정
  */
+const methodOverride = require("method-override");
+router.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"]
+  })
+);
 
 /**
  * Listing 12.6 (p. 178)
@@ -86,6 +97,18 @@ router.post(
   usersController.redirectView // 생성 폼으로부터의 데이터 제출과 뷰 출력을 위한 요청 처리
 );
 router.get("/users/:id", usersController.show, usersController.showView);
+
+router.get("/user/:id/edit", usersController.edit);
+router.put(
+  "/users/:id/update",
+  usersController.update,
+  usersController.redirectView
+);
+router.delete(
+  "/users/:id/delete",
+  usersController.delete,
+  usersController.redirectView
+);
 
 /**
  * Listing 20.7 (p. 296)
