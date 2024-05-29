@@ -43,6 +43,11 @@ app.use(
 );
 app.use(express.json());
 
+const router = express.Router();
+app.use("/", router);
+
+
+
 /**
  * Listing 19.3 (p. 280)
  * new와 create 라우트를 위한 라우터 추가
@@ -52,20 +57,20 @@ app.use(express.json());
 
 /**
  * Listing 12.6 (p. 178)
- * 각 페이지 및 요청 타입을 위한 라우트 추가
+ * 라우터 추가
  */
-app.get("/", homeController.showHome);
-app.get("/transportation", homeController.showTransportation); // 코스 페이지 위한 라우트 추가
-app.get("/contact", subscribersController.getSubscriptionPage); // 연락처 페이지 위한 라우트 추가
-app.post("/contact", subscribersController.saveSubscriber); // 연락처 제출 양식을 위한 라우트 추가
+router.get("/", homeController.showHome);
+router.get("/transportation", homeController.showTransportation); // 코스 페이지 위한 라우트 추가
+router.get("/contact", subscribersController.getSubscriptionPage); // 연락처 페이지 위한 라우트 추가
+router.post("/contact", subscribersController.saveSubscriber); // 연락처 제출 양식을 위한 라우트 추가
 
-app.get("/subscribers", subscribersController.getAllSubscribers); // 모든 구독자를 위한 라우트 추가
+router.get("/subscribers", subscribersController.getAllSubscribers); // 모든 구독자를 위한 라우트 추가
 
 /**
  * Listing 18.10 (p. 269)
  * userController.js를 위에서 요청
  */
-app.get("/users", usersController.index, usersController.indexView); // index 라우트 생성
+router.get("/users", usersController.index, usersController.indexView); // index 라우트 생성
 
 /**
  * Listing 19.3 (p. 280)
@@ -74,6 +79,14 @@ app.get("/users", usersController.index, usersController.indexView); // index �
 /**
  * @TODO: new, create, redirectView 라우트를 위한 라우터 추가
  */
+
+router.get("/uers/new", usersController.new);
+router.post(
+  "/users/create",
+  usersController.create,
+  usersController.redirectView
+);
+router.get("/users/:id", usersController.show, usersController.show);
 
 /**
  * Listing 12.12 (p. 184)
